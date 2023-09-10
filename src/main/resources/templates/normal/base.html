@@ -80,7 +80,7 @@
       <div th:classappend="${'alert-'+session.message.type}"   class="alert " role="alert">
         <span th:text="${session.message.content}"></span>
               </div>
- <th:block th:text="${@sessionhelper.removemessgaefromsession()}"></th:block>
+ <th:block th:text="${@sessionHelper.removemessgaefromsession()}"></th:block>
  </div>
     <div th:replace="${content}"></div>
  

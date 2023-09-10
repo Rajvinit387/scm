@@ -1,7 +1,10 @@
 package com.example.smartcontactmanager.controller;
 
-import java.util.Random;
-
+import com.example.smartcontactmanage.helper.message;
+import com.example.smartcontactmanager.dao.userRepository;
+import com.example.smartcontactmanager.entities.User;
+import com.example.smartcontactmanager.services.emailservice;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,12 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.smartcontactmanager.dao.userRepository;
-import com.example.smartcontactmanager.entities.User;
-import com.example.smartcontactmanager.services.emailservice;
-import com.example.smartcontactmanager.services.SessionHelper;
-
-import jakarta.servlet.http.HttpSession;
+import java.util.Random;
 
 @Controller
 public class forgotcontroller {
@@ -43,9 +41,11 @@ public class forgotcontroller {
 	public String sendotp(@RequestParam("email") String email, HttpSession session)
 	{
 		
+		 int min=10000;
+		 int max=999999;
+		 int otp=(int)(Math.random()*(max-min+1)+min);
 		
-		
-		int otp= random.nextInt(999999);
+		//int otp= random.nextInt(999999);
 		
 		String msgString="<h1> OTP IS  -> "+otp+"<h1>";
 		boolean flag= this.emailservice.sendemail("OTP from SCM", msgString, email);
@@ -83,14 +83,6 @@ public class forgotcontroller {
 			
 		}
 		else {
-			
-			
-			
-		
-			
-			
-			
-			
 			return "password_change_form";
 			
 		}
@@ -111,7 +103,9 @@ public class forgotcontroller {
 	User user=	this.userRepository.getUserbyUserName(emaString);
 	user.setPassword(this.bCryptPasswordEncoder.encode(newpassword));
 	this.userRepository.save(user);
-	return "redirect:/login1?change=password changed successfully";
+	session.setAttribute("message",new message("password changed successfully", "alert-success"));
+	return "login";
+
 	}
 	
 	
