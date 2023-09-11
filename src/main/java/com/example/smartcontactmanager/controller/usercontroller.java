@@ -214,6 +214,7 @@ if(user.getId()==contact.getUser().getId())
    {
 	   try {
 		 contact oldContact=  this.contactRepository.findById(contact.getCid()).get();
+		 //System.out.println(contact.getCid());
 		   
 		   if(!file.isEmpty())
 		   {
@@ -282,10 +283,10 @@ if(user.getId()==contact.getUser().getId())
 	 }
 	 else {
 		  session.setAttribute("message", new message("Password was wrong..enter correct password", "danger"));
-		  return "redirect:/user/settings"; 
+		  return "normal/settings";
 	}
 	   
-	  return "redirect:/user/index"; 
+	  return "normal/user_dashboard";
    }
    
    @PostMapping("/create_order")
